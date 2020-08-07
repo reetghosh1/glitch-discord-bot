@@ -26,7 +26,7 @@ bot.on('ready', () => {
 
 const prefix = "!";
 bot.on('message', msg => {
-  if (!msg.content.startsWith(prefix)) return;
+  if (!msg.content.startsWith(prefix)|| message.author.bot) return;
   if (msg.content.startsWith(prefix + "hi")) {
     msg.reply('Glitch OP EZ!');
     //msg.channel.send('pong');
@@ -42,5 +42,11 @@ bot.on('message', msg => {
   else if (msg.content.startsWith(prefix + "ping")) {
     var ping = Date.now() - msg.createdTimestamp + " ms";
     msg.reply('My latency is: ' + ping);
+  }
+    else if (msg.content.startsWith(prefix + "akshat")) {
+    msg.reply('BT hai bhai!');
+  }
+      else if (msg.content.startsWith(prefix + "yashvir")) {
+    msg.reply('My ping is 9999999999 ms haha xD');
   }
 });
