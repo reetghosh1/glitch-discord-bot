@@ -26,7 +26,7 @@ bot.on('ready', () => {
 
 const prefix = "!";
 bot.on('message', msg => {
-  if (!msg.content.startsWith(prefix)|| message.author.bot) return;
+  if (!msg.content.startsWith(prefix)|| msg.author.bot) return;
   if (msg.content.startsWith(prefix + "hi")) {
     msg.reply('Glitch OP EZ!');
     //msg.channel.send('pong');
@@ -34,7 +34,7 @@ bot.on('message', msg => {
   } else if (msg.content.startsWith('!kick')) {
     if (msg.mentions.users.size) {
       const taggedUser = msg.mentions.users.first();
-      msg.channel.send(`You wanted to kick: ${taggedUser.username}`);
+      msg.channel.send(`Pehli fursat mei nikal: ${taggedUser}`);
     } else {
       msg.reply('Please tag a valid user!');
     }
@@ -46,7 +46,13 @@ bot.on('message', msg => {
     else if (msg.content.startsWith(prefix + "akshat")) {
     msg.reply('BT hai bhai!');
   }
-      else if (msg.content.startsWith(prefix + "yashvir")) {
+    else if (msg.content.startsWith(prefix + "yashvir")) {
     msg.reply('My ping is 9999999999 ms haha xD');
+  }
+    else if (msg.content.startsWith(prefix + "lilmalvi")) {
+    msg.reply('Stonks');
+  }
+    else if (msg.content.startsWith(prefix + "shreyas")) {
+    msg.reply('dhupchik');
   }
 });
