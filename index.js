@@ -24,8 +24,10 @@ bot.on('ready', () => {
   console.info(`Logged in as ${bot.user.tag}!`);
 });
 
+const prefix = "!";
 bot.on('message', msg => {
-  if (msg.content === 'g!') {
+  if (!msg.content.startsWith(prefix)) return;
+  if (msg.content.startsWith(prefix + "hi")) {
     msg.reply('Glitch OP EZ!');
     //msg.channel.send('pong');
 
@@ -37,7 +39,7 @@ bot.on('message', msg => {
       msg.reply('Please tag a valid user!');
     }
   }
-  else if (msg.content === 'ping') {
+  else if (msg.content.startsWith(prefix + "ping")) {
     var ping = Date.now() - msg.createdTimestamp + " ms";
     msg.reply('My latency is: ' + ping);
   }
