@@ -32,11 +32,25 @@ bot.on('message', msg => {
     //msg.channel.send('pong');
 
   } else if (msg.content.startsWith('!kick')) {
-    if (msg.mentions.users.size) {
-      const taggedUser = msg.mentions.users.first();
-      msg.channel.send(`Pehli fursat mei nikal: ${taggedUser}`);
-    } else {
-      msg.reply('Please tag a valid user!');
+    if(msg.member.hasPermission("KICK_MEMBERS"))
+    {
+      if (msg.mentions.users.size) {
+        const taggedUser = msg.mentions.members.first();
+        if(!taggedUser.kickable)
+        {
+          msg.reply('Cannot kick them, sad lyf')
+        }
+        else{
+          msg.channel.send(`Pehli fursat mei nikal: ${taggedUser}`);
+          taggedUser.kick();
+        }
+      } else {
+        msg.reply('Please tag a valid user!');
+      }
+    }
+    else
+    {
+      msg.reply("You do not have permission to kick, better luck next time");
     }
   }
   else if (msg.content.startsWith(prefix + "ping")) {
@@ -55,4 +69,8 @@ bot.on('message', msg => {
     else if (msg.content.startsWith(prefix + "shreyas")) {
     msg.reply('dhupchik');
   }
+    else if (msg.content.startsWith(prefix + "joke")) {
+    msg.reply('Kanye is the joke haha lol xD');
+  }
+  
 });
