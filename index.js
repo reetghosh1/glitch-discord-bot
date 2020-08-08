@@ -1,3 +1,4 @@
+const randompuppy = require('random-puppy');
 const http = require('http');
 const express = require('express');
 const app = express();
@@ -23,6 +24,7 @@ bot.login(TOKEN);
 bot.on('ready', () => {
   console.info(`Logged in as ${bot.user.tag}!`);
 });
+
 
 const prefix = "!";
 bot.on('message', msg => {
@@ -57,20 +59,36 @@ bot.on('message', msg => {
     var ping = Date.now() - msg.createdTimestamp + " ms";
     msg.reply('My latency is: ' + ping);
   }
-    else if (msg.content.startsWith(prefix + "akshat")) {
-    msg.reply('BT hai bhai!');
-  }
-    else if (msg.content.startsWith(prefix + "yashvir")) {
-    msg.reply('My ping is 9999999999 ms haha xD');
-  }
-    else if (msg.content.startsWith(prefix + "lilmalvi")) {
-    msg.reply('Stonks');
-  }
-    else if (msg.content.startsWith(prefix + "shreyas")) {
-    msg.reply('dhupchik');
-  }
-    else if (msg.content.startsWith(prefix + "joke")) {
-    msg.reply('Kanye is the joke haha lol xD');
+  else if (msg.content.startsWith(prefix + "meme")) {
+        let reddit = [
+        "meme",
+        "animemes",
+        "MemesOfAnime",
+        "animememes",
+        "AnimeFunny",
+        "dankmemes",
+        "dankmeme",
+        "wholesomememes",
+        "MemeEconomy",
+        "techsupportanimals",
+        "meirl",
+        "me_irl",
+        "2meirl4meirl",
+        "AdviceAnimals"
+    ]
+
+    let subreddit = reddit[Math.floor(Math.random() * reddit.length)];
+
+    msg.channel.startTyping();
+
+    randompuppy(subreddit).then(async url => {
+            await msg.channel.send({
+                files: [{
+                    attachment: url,
+                    name: 'meme.png'
+                }]
+            }).then(() => msg.channel.stopTyping());
+    }).catch(err => console.error(err));
   }
   
 });
