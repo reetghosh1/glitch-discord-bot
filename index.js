@@ -62,19 +62,12 @@ bot.on('message', msg => {
   else if (msg.content.startsWith(prefix + "meme")) {
         let reddit = [
         "meme",
-        "animemes",
-        "MemesOfAnime",
-        "animememes",
-        "AnimeFunny",
         "dankmemes",
         "dankmeme",
         "wholesomememes",
-        "MemeEconomy",
-        "techsupportanimals",
         "meirl",
         "me_irl",
         "2meirl4meirl",
-        "AdviceAnimals"
     ]
 
     let subreddit = reddit[Math.floor(Math.random() * reddit.length)];
@@ -88,7 +81,6 @@ bot.on('message', msg => {
                     name: 'meme.png'
                 }]
             }).then(() => msg.channel.stopTyping());
-    }).catch(err => console.error(err));
+    }).catch(err => msg.channel.send(err));
   }
-  
 });
