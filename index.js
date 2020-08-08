@@ -83,4 +83,15 @@ bot.on('message', msg => {
             }).then(() => msg.channel.stopTyping());
     }).catch(err => msg.channel.send(err));
   }
+  else if (msg.content.startsWith(prefix + "indianmeme")) {
+    let sub = "IndianDankMemes";
+        randompuppy(sub).then(async url => {
+            await msg.channel.send({
+                files: [{
+                    attachment: url,
+                    name: 'meme.png'
+                }]
+            }).then(() => msg.channel.stopTyping());
+    }).catch(err => msg.channel.send(err));
+  }
 });
