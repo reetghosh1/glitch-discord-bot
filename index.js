@@ -28,7 +28,7 @@ bot.on('ready', () => {
 });
 
 
-const prefix = "!";
+const prefix = "g!";
 bot.on('message', msg => {
   if (!msg.content.startsWith(prefix)|| msg.author.bot) return;
   if (msg.content.startsWith(prefix + "hi")) {
@@ -36,7 +36,7 @@ bot.on('message', msg => {
     //msg.channel.send('pong');
 
   } 
-  else if (msg.content.startsWith('!kick')) {
+  else if (msg.content.startsWith('g!kick')) {
     if(msg.member.hasPermission("KICK_MEMBERS"))
     {
       if (msg.mentions.users.size) {
@@ -97,7 +97,7 @@ bot.on('message', msg => {
             }).then(() => msg.channel.stopTyping());
     }).catch(err => console.log(err));
   }
-  else if (msg.content.startsWith('!warn'))
+  else if (msg.content.startsWith('g!warn'))
   {
     if(msg.member.hasPermission("KICK_MEMBERS")){
     const args = msg.content.slice(prefix.length).trim().split(' ');
@@ -137,7 +137,7 @@ bot.on('message', msg => {
       **Reason:** ${reason}`)
       .addField("Warning Count", warns[warnuser.id].warns);
 
-    var channel = msg.member.guild.channels.cache.get("742043465449472161");
+    var channel = msg.guild.channels.cache.find(channel => channel.name === "log");
 
     if(!channel)
     {
@@ -168,7 +168,7 @@ bot.on('message', msg => {
     msg.reply("You do not have the permission to do that!")
   }
   }
-  else if (msg.content.startsWith('!forgive'))
+  else if (msg.content.startsWith('g!forgive'))
   {
     if(msg.member.hasPermission("KICK_MEMBERS")){
     const args = msg.content.slice(prefix.length).trim().split(' ');
@@ -213,9 +213,16 @@ bot.on('message', msg => {
         **Reason:** ${reason}`)
         .addField("Warning Count", warns[forguser.id].warns);
 
-        var channel = msg.member.guild.channels.cache.get("742043465449472161");
+        //var channel = msg.member.guild.channels.cache.get("742074843935014992");
+        var channel = msg.guild.channels.cache.find(channel => channel.name === "log")
 
-        channel.send(embed);
+        
+        if(!channel)
+        {
+          return;
+        }
+
+        channel.send(embed)     
         msg.channel.send(embed);
       }
     }
