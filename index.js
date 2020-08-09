@@ -1,3 +1,5 @@
+const fs = require('fs');
+const warns = JSON.parse(fs.readFileSync("./warnings.json", "utf8"));
 const randompuppy = require('random-puppy');
 const http = require('http');
 const express = require('express');
@@ -33,7 +35,8 @@ bot.on('message', msg => {
     msg.reply('Glitch OP EZ!');
     //msg.channel.send('pong');
 
-  } else if (msg.content.startsWith('!kick')) {
+  } 
+  else if (msg.content.startsWith('!kick')) {
     if(msg.member.hasPermission("KICK_MEMBERS"))
     {
       if (msg.mentions.users.size) {
@@ -92,6 +95,133 @@ bot.on('message', msg => {
                     name: 'meme.png'
                 }]
             }).then(() => msg.channel.stopTyping());
-    }).catch(err => msg.channel.send(err));
+    }).catch(err => console.log(err));
+  }
+  else if (msg.content.startsWith('!warn'))
+  {
+    if(msg.member.hasPermission("KICK_MEMBERS")){
+    const args = msg.content.slice(prefix.length).trim().split(' ');
+
+    var warnuser = msg.guild.member(msg.mentions.users.first());
+    var reason = args.slice(1).join(" ");
+
+    if(!warnuser)
+    {
+      return msg.reply("Cannot find user!");
+    }
+    if(warnuser.hasPermission("MANAGE_MESSAGES"))
+    {
+      return msg.reply("Cannot warn this user!");
+    }
+    if(!warns[warnuser.id])
+    {
+      warns[warnuser.id] = {
+        warns: 0
+      };
+    }
+
+    warns[warnuser.id].warns++;
+    fs.writeFile("./warnings.json", JSON.stringify(warns), (err) => {
+        if(err)
+        {
+          console.log(err);
+        }
+    });
+
+    var embed = new Discord.MessageEmbed()
+      .setColor("#ff0000")
+      .setFooter(msg.member.displayName, msg.author.displayAvatarURL)
+      .setTimestamp()
+      .setDescription(`**Warning** ${warnuser} (${warnuser.id})
+      **Warned by:** ${msg.author}
+      **Reason:** ${reason}`)
+      .addField("Warning Count", warns[warnuser.id].warns);
+
+    var channel = msg.member.guild.channels.cache.get("742043465449472161");
+
+    if(!channel)
+    {
+      return;
+    }
+
+    channel.send(embed);
+    msg.channel.send(embed);
+
+    if(warns[warnuser.id].warns==3)
+    {
+      var embed = new Discord.MessageEmbed()
+      .setColor("#ff0000")
+      .setDescription(`**ATTENTION!**${warnuser}`)
+      .addField("Message", "You are 1 warning away from getting kicked!");
+
+      msg.channel.send(embed);
+    }
+    else if(warns[warnuser.id].warns==4)
+    {
+      msg.guild.member(warnuser).kick(reason);
+      msg.channel.send(`${warnuser} was kicked for incurring too many warnings!`);
+    }
+
+  }
+  else
+  {
+    msg.reply("You do not have the permission to do that!")
+  }
+  }
+  else if (msg.content.startsWith('!forgive'))
+  {
+    if(msg.member.hasPermission("KICK_MEMBERS")){
+    const args = msg.content.slice(prefix.length).trim().split(' ');
+
+    var forguser = msg.guild.member(msg.mentions.users.first());
+    var reason = "Good behaviour";
+
+    if(!forguser)
+    {
+      return msg.reply("Cannot find user!");
+    }
+    if(forguser.hasPermission("MANAGE_MESSAGES"))
+    {
+      return msg.reply("Cannot forgive this user!");
+    }
+    if(!warns[forguser.id])
+    {
+      return msg.reply("No warnings to forgive!");
+    }
+
+    if(warns[forguser.id])
+    {
+      if(warns[forguser.id].warns==0)
+      {
+        return msg.reply("Warning count is already 0!");
+      }
+      else if(warns[forguser.id].warns>0)
+      {
+        warns[forguser.id].warns--;
+        fs.writeFile("./warnings.json", JSON.stringify(warns), (err) => {
+          if(err)
+          {
+            console.log(err);
+          }
+        });
+        var embed = new Discord.MessageEmbed()
+        .setColor("#008000")
+        .setFooter(msg.member.displayName, msg.author.displayAvatarURL)
+        .setTimestamp()
+        .setDescription(`**Forgiven** ${forguser} (${forguser.id})
+        **Forgiven by:** ${msg.author}
+        **Reason:** ${reason}`)
+        .addField("Warning Count", warns[forguser.id].warns);
+
+        var channel = msg.member.guild.channels.cache.get("742043465449472161");
+
+        channel.send(embed);
+        msg.channel.send(embed);
+      }
+    }
+  }
+  else{
+    msg.reply("You do not have the permission to do that!")
+  }
   }
 });
