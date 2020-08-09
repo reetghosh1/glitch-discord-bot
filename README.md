@@ -14,5 +14,8 @@ CURRENT COMMANDS -
 
 !indianmeme - Displays a meme from r/IndianDankMemes
 
+!warn - Lets you warn a user(if you have admin permissions), and kicks user after 4 warnings.
+
+!forgive - Lets you deduct warnings in case of good behaviour.
 
 MORE COMMANDS COMING SOON!!
