@@ -3,6 +3,7 @@ Discord bot for Glitch!
 Prefix is "!" - single exclamation mark. Commands are limited now, bot is work in progress.
 
 CURRENT COMMANDS - 
+
 !hi   - Greeting the bot
 
 !ping - returns latency of bot.
