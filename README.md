@@ -9,4 +9,4 @@ CURRENT COMMANDS -
 !meme - Displays a random meme from some meme subreddits
 !indianmeme - Displays a meme from r/IndianDankMemes
 
-MORE COMMANDS COMING SOON!
+MORE COMMANDS COMING SOON!!
