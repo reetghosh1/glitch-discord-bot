@@ -1,6 +1,6 @@
 Discord bot for Glitch!
 
-Prefix is "g!" - single exclamation mark. Commands are limited now, bot is work in progress.
+Prefix is "g!". Commands are limited now, bot is work in progress.
 
 CURRENT COMMANDS - 
 
